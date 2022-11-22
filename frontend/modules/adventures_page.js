@@ -5,21 +5,48 @@ import config from "../conf/index.js";
 function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
-
+  let regExp = /\?city=(?<city_name>\w+)/ ;
+  let matching= search.match(regExp);
+  let matchingArray = Array.from(matching);
+  //console.log(matchingArray[1]);
+  return matchingArray[1];
 }
 
 //Implementation of fetch call with a paramterized input based on city
 async function fetchAdventures(city) {
   // TODO: MODULE_ADVENTURES
   // 1. Fetch adventures using the Backend API and return the data
-
+  try{
+    let response= await fetch(config.backendEndpoint+"/adventures/?city="+city);
+    let data =  await response.json();
+    //console.log(data);
+    return data;
+   }
+   catch(err){
+     return null;
+   }
 }
 
 //Implementation of DOM manipulation to add adventures for the given city from list of adventures
 function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
-
+//console.log(adventures);
+adventures.forEach((adventure) => {
+let adventures_grid=document.createElement("div");
+adventures_grid.className ="col-lg-3 col-md-3 col-6";
+adventures_grid.innerHTML=`<a class="activity-card" id=${adventure.id} href="detail/?adventure=${adventure.id}">
+<img src="${adventure.image}" alt="${adventure.name}">
+<div class="d-flex flex-wrap justify-content-around">
+<p style="flex-basis:50%;align-self:flex-start;flex-grow:1;flex-shrink:1;">${adventure.name}<p>
+<p style="flex-basis:50%;align-self:flex-start;flex-grow:1;flex-shrink:1;">${adventure.costPerHead}</p>
+<p>Duration</p>
+<p>${adventure.duration}</p>
+</div>
+<p class="category-banner">${adventure.category}</p>
+</a>`;
+document.getElementById("data").appendChild(adventures_grid);
+})
 }
 
 //Implementation of filtering by duration which takes in a list of adventures, the lower bound and upper bound of duration and returns a filtered list of adventures.
