@@ -56,7 +56,12 @@ function filterByDuration(list, low, high) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on Duration and return filtered list
   //console.log(list,low,high);
-  let filteredList= list.filter((item) => item.duration>=low && item.duration<=high);
+  let filteredList= list.filter((item) => {
+    return item.duration >= low ;
+  });
+  filteredList= filteredList.filter((item) => {
+    return item.duration <= high ;
+  });
   //console.log(filteredList);
   return filteredList;
 }
@@ -84,36 +89,38 @@ function filterFunction(list, filters) {
   // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
 let filteredList = [];
 
-//console.log(list,filters);
+console.log(list,filters)
 // filter by duration
 //console.log(typeof filters['duration']);
 // case 1: when we have duration and category applied
-if(filters['duration']!==undefined && filters['category'].length>0){
+if(filters.duration!="" && filters['category'].length>0){
   let durationLimits= filters['duration'].split('-');
   let filteredListByDuration=filterByDuration(list,parseInt(durationLimits[0]),parseInt(durationLimits[1]));
-  
+  console.log(filteredListByDuration);
   // filter by category
   let categoryList=Array.from(filters['category'].values());
   let filteredListByCategory=filterByCategory(list,categoryList);
-
-  filteredList={...filteredListByDuration,...filteredListByCategory};
+  console.log(filteredListByCategory)
+  filteredList=filteredListByDuration.filter((item) => categoryList.includes(item.category))
+  console.log(filteredList)
   return filteredList;
 }
 // case 2: when we have duration applied
-else if(filters['duration']!==undefined) {
-  let durationLimits= filters['duration'].split('-');
+else if(filters.duration!="") {
+  let durationLimits= filters.duration.split('-');
+  //console.log(durationLimits);
   filteredList=filterByDuration(list,parseInt(durationLimits[0]),parseInt(durationLimits[1]));
+  //console.log(filteredList);
   return filteredList;
 }
 // case 3: when we have category applied
-else if(filters['category'.length>0]) {
+else if(filters['category'].length>0) {
   let categoryList=Array.from(filters['category'].values());
   filteredList=filterByCategory(list,categoryList);
   return filteredList;
 }
 // case 4: when we have no filters applied
 else {
-  filteredList=Array.from(list);
   return filteredList;
 }
 }

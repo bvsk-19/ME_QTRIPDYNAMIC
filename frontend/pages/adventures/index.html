@@ -131,22 +131,17 @@
             adventures = await fetchAdventures(city);
             //console.log(adventures,filters);
             //console.log(Object.values(filters).length);
-
             //Applies filters on the adventures list
-            if(filters['duration']!==undefined && filters['category'].length == 0){
-                //console.log(adventures,filters);
-                addAdventureToDOM(adventures);
-            }
-            else{
+
             let filteredAdventures = filterFunction(adventures, filters);
-            //console.log(filteredAdventures);
+            //console.log(typeof filteredAdventures);
             //Updates the filtered adventures list to the DOM
+            document.getElementById("data").innerHTML="";
             addAdventureToDOM(filteredAdventures);
 
             // Updates the DOM with filter pills if any
             generateFilterPillsAndUpdateDOM(filters);
             
-            }
         })();
 
 
@@ -157,7 +152,12 @@
             // 2. Invoke saveFiltersToLocalStorage here
             
            // console.log(JSON.stringify(event.target.value));
-           filters["duration"] = event.target.value;
+           filters.duration = event.target.value;
+           //console.log(filters.duration);
+           let filteredAdventures = filterFunction(adventures, filters);
+           //console.log(filteredAdventures);
+           document.getElementById("data").innerHTML="";
+            addAdventureToDOM(filteredAdventures);
             saveFiltersToLocalStorage(filters);
             //console.log(window.localStorage.getItem('filters'));
         }
@@ -168,7 +168,15 @@
             // 1. Change the DOM to clear the Duration filter. Refer clearCategory() below
             // 2. Invoke saveFiltersToLocalStorage here
             //console.log(event.target.value);
-            filters["duration"] = event.target.value;
+            filters.duration = "";
+            //console.log(filters.duration);
+            let filteredAdventures = filterFunction(adventures, filters);
+            //console.log(filters);
+            //console.log(filteredAdventures);
+            document.getElementById("data").innerHTML="";            //Updates the filtered adventures list to the DOM
+            addAdventureToDOM(filteredAdventures);
+            // TODO: MODULE_FILTERS
+            // 1. Invoke saveFiltersToLocalStorage here
             saveFiltersToLocalStorage(filters);
 
         }
@@ -187,10 +195,13 @@
 
             filters["category"].push(category);
             filters["category"] = filters["category"].filter(onlyUnique);
+            document.getElementById("data").innerHTML="";
 
 
             generateFilterPillsAndUpdateDOM(filters);
             let filteredAdventures = filterFunction(adventures, filters);
+            console.log(filteredAdventures);
+            console.log(filters);
             addAdventureToDOM(filteredAdventures);
             //console.log(Array.from(filters["category"].values()));
 
@@ -209,16 +220,11 @@
             filters["category"] = [];
 
            // console.log(event.target.value);
-           if(filters['duration']!==undefined && filters['category'].length == 0){
-                //console.log(adventures);
-                addAdventureToDOM(adventures);
-            }
-            else{
+           document.getElementById("data").innerHTML="";
             let filteredAdventures = filterFunction(adventures, filters);
-            //console.log(filteredAdventures);
+            console.log(filteredAdventures);
             //Updates the filtered adventures list to the DOM
             addAdventureToDOM(filteredAdventures);
-            }
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
             saveFiltersToLocalStorage(filters);
