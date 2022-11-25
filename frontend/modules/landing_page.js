@@ -13,7 +13,7 @@ async function init() {
 async function fetchCities(root) {
   // TODO: MODULE_CITIES
   // 1. Fetch cities using the Backend API and return the data
-  console.log(root);
+  //console.log(root);
 try{
  let response= await fetch(root+"/cities");
  let data =  await response.json();
