@@ -149,7 +149,15 @@ let filters= JSON.parse(window.localStorage.getItem('filters'));
 function generateFilterPillsAndUpdateDOM(filters) {
   // TODO: MODULE_FILTERS
   // 1. Use the filters given as input, update the Duration Filter value and Generate Category Pills
-
+let categoryList = Array.from(filters['category'].values());
+//console.log(categoryList);
+let categoryListItem;
+categoryList.forEach((item) => {
+  categoryListItem=document.createElement("p");
+  categoryListItem.innerText=item;
+  categoryListItem.className="category-filter";
+  document.getElementById("category-list").appendChild(categoryListItem);
+})
 }
 export {
   getCityFromURL,
