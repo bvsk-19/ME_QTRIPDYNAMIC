@@ -74,7 +74,7 @@ let child;
 images.forEach((image) => {
   child=document.createElement("div");
   child.setAttribute("class","carousel-item");
-  child.innerHTML=`<img src="${image}" class="d-block w-100">`;
+  child.innerHTML=`<img src="${image}" class="d-block w-100 activity-card-image">`;
   //console.log(child);
   Parent.append(child);
 })
