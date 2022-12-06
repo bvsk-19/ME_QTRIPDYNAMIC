@@ -89,20 +89,20 @@ function filterFunction(list, filters) {
   // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
 let filteredList = [];
 
-console.log(list,filters)
+//console.log(list,filters)
 // filter by duration
 //console.log(typeof filters['duration']);
 // case 1: when we have duration and category applied
 if(filters.duration!="" && filters['category'].length>0){
   let durationLimits= filters['duration'].split('-');
   let filteredListByDuration=filterByDuration(list,parseInt(durationLimits[0]),parseInt(durationLimits[1]));
-  console.log(filteredListByDuration);
+  //console.log(filteredListByDuration);
   // filter by category
   let categoryList=Array.from(filters['category'].values());
   let filteredListByCategory=filterByCategory(list,categoryList);
-  console.log(filteredListByCategory)
+  //console.log(filteredListByCategory)
   filteredList=filteredListByDuration.filter((item) => categoryList.includes(item.category))
-  console.log(filteredList)
+  //console.log(filteredList)
   return filteredList;
 }
 // case 2: when we have duration applied
